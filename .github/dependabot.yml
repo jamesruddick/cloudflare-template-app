@@ -1,0 +1,42 @@
+version: 2
+updates:
+  # One entry covers both packages: pnpm resolves the workspace (`.` and `frontend/`) into a single
+  # lockfile, so a separate `/frontend` entry would only produce duplicate pull requests.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    # The supply-chain guard that actually binds here. pnpm's own minimumReleaseAge does not apply to
+    # Dependabot - it resolves and writes the lockfile itself, and CI then installs exactly what the
+    # lockfile says under --frozen-lockfile. Without this, a compromised release could be merged the day
+    # it is published. Longer for majors, which are the ones nobody skims carefully.
+    #
+    # Security updates deliberately ignore cooldown, so a real advisory is still fixed immediately.
+    cooldown:
+      default-days: 5
+      semver-major-days: 14
+      semver-minor-days: 7
+      semver-patch-days: 3
+    groups:
+      # The Cloudflare toolchain releases in lockstep; a partial bump tends to break the build.
+      cloudflare:
+        patterns:
+          - '@cloudflare/*'
+          - 'wrangler'
+          - 'miniflare'
+      react:
+        patterns:
+          - 'react'
+          - 'react-dom'
+          - 'react-router'
+          - '@types/react'
+          - '@types/react-dom'
+      dev-dependencies:
+        dependency-type: development
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 5

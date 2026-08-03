@@ -1,0 +1,39 @@
+{
+  "name": "cloudflare-template-app",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A full-stack starter running entirely on Cloudflare Workers, with Hono for the API and React for the UI.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "wrangler types && pnpm --filter frontend build && vite build",
+    "deploy": "pnpm build && pnpm run deploy:worker",
+    "deploy:worker": "wrangler deploy -c dist/cloudflare_template_app/wrangler.json",
+    "types": "wrangler types",
+    "typecheck": "wrangler types && tsc --noEmit -p tsconfig.json && pnpm --filter frontend typecheck",
+    "test": "vitest run",
+    "lint": "biome check .",
+    "format": "biome format --write ."
+  },
+  "dependencies": {
+    "hono": "^4.12.33"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.6",
+    "@cloudflare/vite-plugin": "^1.50.0",
+    "@cloudflare/vitest-pool-workers": "^0.19.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.1.2",
+    "@vitejs/plugin-react": "^6.0.5",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.0",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.118.0"
+  },
+  "engines": {
+    "node": ">=26"
+  },
+  "packageManager": "pnpm@11.19.0"
+}

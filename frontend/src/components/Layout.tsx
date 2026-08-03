@@ -1,0 +1,33 @@
+import { Link, Outlet } from 'react-router';
+
+export function Layout() {
+  return (
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white text-slate-900 dark:from-slate-950 dark:to-slate-900 dark:text-slate-100">
+      <div className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 py-6 sm:px-6 sm:py-16">
+        <header className="mb-8 flex items-center justify-between sm:mb-14">
+          <Link to="/" className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 text-sm font-bold text-white shadow-sm">CA</div>
+            <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Cloudflare App</span>
+          </Link>
+          <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600 ring-1 ring-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-700">
+            Development
+          </span>
+        </header>
+
+        <div className="flex-1">
+          <Outlet />
+        </div>
+
+        <footer className="mt-16 flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-slate-200 pt-6 text-xs text-slate-400 dark:border-slate-800 dark:text-slate-500">
+          <span>Hono</span>
+          <span aria-hidden="true">·</span>
+          <span>React 19</span>
+          <span aria-hidden="true">·</span>
+          <span>Vite</span>
+          <span aria-hidden="true">·</span>
+          <span>Tailwind CSS</span>
+        </footer>
+      </div>
+    </main>
+  );
+}

@@ -1,0 +1,11 @@
+packages:
+  - "."
+  - "frontend"
+allowBuilds:
+  esbuild: true
+  workerd: true
+minimumReleaseAge: 360
+overrides:
+  # miniflare pins undici 7.28.0 exactly, which carries five advisories. Dev-only - it never ships in
+  # the Worker. Drop this once miniflare's own pin reaches >=7.29.0.
+  undici: "^7.29.0"
