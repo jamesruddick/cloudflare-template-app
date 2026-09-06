@@ -135,7 +135,10 @@ is `devDependencies`. Apply the same test when adding packages.
 ### Style rules
 
 - Tailwind classes only — no inline `style={{...}}` props (blocked by CSP)
-- Biome is the sole lint/format tool — don't add ESLint or Prettier
+- Biome is the sole lint/format tool — don't add ESLint or Prettier. It reports
+  unused code as a *warning* and `biome check` exits 0 on warnings, so
+  `noUnusedLocals`/`noUnusedParameters` in `tsconfig.base.json` are what
+  actually fail CI on dead code
 - Don't swap the RPC client (`hc`) for manual `fetch` typing
 
 ---
@@ -372,14 +375,16 @@ Builds skip the check (`command === 'serve'` only) — CI has no `.dev.vars`.
 
 ### CI
 
-`.github/workflows/ci.yml` runs three jobs on every push/PR:
+`.github/workflows/ci.yml` runs two jobs on every push/PR:
 
 - **`check`** — `types` → `lint` → `typecheck` → `build` → `test` →
   `deploy:worker --dry-run`
 - **`audit`** — `pnpm audit --audit-level moderate`, deliberately a separate job
   so a new advisory and a broken test can't hide behind each other
-- **`dependency-review`** — PRs only; flags newly-added dependencies carrying a
-  known advisory before they reach the lockfile
+
+`audit` is the whole advisory gate. `dependency-review-action` would scope the
+same check to what a PR *adds*, but its API needs GitHub Advanced Security on a
+private repo — add it only if the repo is public.
 
 Actions are **pinned to commit SHAs**, not tags — a tag is mutable and whoever
 controls the action's repo could repoint it at code that runs against our

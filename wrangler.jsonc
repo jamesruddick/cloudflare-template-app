@@ -2,7 +2,11 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "cloudflare-template-app",
   "main": "src/index.ts",
-  "compatibility_date": "2026-07-30",
+  // Capped by the OLDEST workerd in the toolchain, which is not wrangler's. The test suite runs inside
+  // the binary `@cloudflare/vitest-pool-workers` bundles, while wrangler ships a newer one - so a date
+  // past what the pool supports builds and deploys fine and then fails every test file with
+  // ERR_RUNTIME_FAILURE. Raise it when the pool catches up.
+  "compatibility_date": "2026-08-22",
   "compatibility_flags": ["nodejs_compat"],
   "upload_source_maps": true,
   "observability": {

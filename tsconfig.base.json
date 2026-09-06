@@ -11,6 +11,10 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "noFallthroughCasesInSwitch": true,
+    // Biome reports unused locals and parameters as warnings, and `biome check` exits 0 on a warning - so
+    // without these two, dead code passes CI silently. Here they are type errors and `pnpm typecheck` fails.
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "skipLibCheck": true,
     "noEmit": true
   }

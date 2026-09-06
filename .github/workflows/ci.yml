@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
 
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -56,7 +56,7 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6.0.10
 
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -65,18 +65,10 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # This is the whole advisory gate. `dependency-review-action` used to sit beside it, scoped to the
+      # dependencies a PR ADDS - but its API needs GitHub Advanced Security on a private repository, so on
+      # one it fails in seconds on every PR without ever reading a dependency. It checks the same advisory
+      # database at the same threshold against a strict subset of this lockfile, so nothing is lost by
+      # leaving it out. Worth adding back only if the repository is public.
       - name: Audit dependencies
         run: pnpm audit --audit-level moderate
-
-  # Flags dependencies a pull request would ADD that carry a known advisory, before they reach the
-  # lockfile. Only meaningful on a PR, where there are two refs to compare.
-  dependency-review:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
-        with:
-          fail-on-severity: moderate
