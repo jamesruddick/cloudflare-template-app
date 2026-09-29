@@ -14,7 +14,7 @@ for the UI, and [Vite](https://vite.dev) via `@cloudflare/vite-plugin` for a sin
   the worker's route types — no manual fetch typing needed
 - **Auth demo**: a working `API_KEY` → JWT (`JWT_SECRET`) → protected-route flow,
   meant as a reference for wiring up real auth in a derived project
-- **Testing**: Vitest via `@cloudflare/vitest-pool-workers`, running tests inside
+- **Testing**: Vitest via `@cloudflare/vitest-plugin`, running tests inside
   an actual `workerd` instance
 - **Linting/formatting**: Biome
 - **Deploy**: Wrangler, deploying static assets + the worker together

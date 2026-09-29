@@ -286,7 +286,7 @@ unless the handler set its own `Cache-Control`. Keep this split when adding rule
 
 ### Framework
 
-Vitest via `@cloudflare/vitest-pool-workers` — tests run inside real `workerd`,
+Vitest via `@cloudflare/vitest-plugin` — tests run inside real `workerd`,
 not mocks or jsdom. Test bindings (`API_KEY`/`JWT_SECRET`) are set in
 `vitest.config.ts` under `miniflare.bindings`, independent of `.dev.vars`.
 
