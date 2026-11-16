@@ -22,7 +22,7 @@
     "db:pull": "bash scripts/db-pull.sh"
   },
   "dependencies": {
-    "hono": "^4.13.16"
+    "hono": "^4.13.18"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.5",
